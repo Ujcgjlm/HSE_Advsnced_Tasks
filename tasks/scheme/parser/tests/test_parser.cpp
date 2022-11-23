@@ -25,7 +25,7 @@ TEST_CASE("Read number") {
 }
 
 std::string RandomSymbol(std::default_random_engine* rng) {
-    std::uniform_int_distribution<int> symbol('a', 'z');
+    std::uniform_int_distribution<char> symbol('a', 'z');
     std::string s;
     for (int i = 0; i < 5; ++i) {
         s.push_back(symbol(*rng));
@@ -53,8 +53,8 @@ TEST_CASE("Read symbol") {
 
 TEST_CASE("Lists") {
     SECTION("Empty list") {
-        auto output = ReadFull("()");
-        REQUIRE(!output);
+        auto null = ReadFull("()");
+        REQUIRE(!null);
     }
 
     SECTION("Pair") {

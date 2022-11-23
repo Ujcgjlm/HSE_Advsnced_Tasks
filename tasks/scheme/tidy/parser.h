@@ -5,4 +5,5 @@
 #include "object.h"
 #include <tokenizer.h>
 
-std::shared_ptr<Object> Read(Tokenizer* tokenizer);
+Object* ReadList(Tokenizer* tokenizer);
+Object* Read(Tokenizer* tokenizer);

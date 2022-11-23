@@ -22,10 +22,11 @@ TEST_CASE_METHOD(SchemeTest, "SelfReferenceCar") {
     ExpectNoError("(define x '(1 . 2))");
     ExpectNoError("(set-car! x x)");
     ExpectEq("(cdr (car (car (car x))))", "2");
-
+ 
     ExpectNoError("(set-car! (car x) (car x))");
     ExpectEq("(cdr x)", "2");
 
+    std::cout << "HERE";
     ExpectNoError("(set-cdr! (car (car x)) 1543)");
     ExpectEq("(cdr x)", "1543");
 

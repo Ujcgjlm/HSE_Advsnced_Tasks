@@ -1,3 +1,4 @@
+#include <iostream>
 #include "scheme_test.h"
 
 TEST_CASE_METHOD(SchemeTest, "IfReturnValue") {

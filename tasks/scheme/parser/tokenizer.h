@@ -1,8 +1,10 @@
 #pragma once
 
+#include <memory>
 #include <variant>
 #include <optional>
 #include <istream>
+#include <regex>
 
 struct SymbolToken {
     std::string name;
@@ -21,7 +23,7 @@ struct DotToken {
 enum class BracketToken { OPEN, CLOSE };
 
 struct ConstantToken {
-    int value;
+    int64_t value;
 
     bool operator==(const ConstantToken& other) const;
 };
@@ -37,4 +39,10 @@ public:
     void Next();
 
     Token GetToken();
+
+private:
+    std::istream* in_stream_;
+    Token current_;
+    bool is_end_ = false;
+    std::regex symbols_token_regex_{"^[a-zA-Z<=>*/#]+[a-zA-Z<=>*/#0-9?!-]*"};
 };

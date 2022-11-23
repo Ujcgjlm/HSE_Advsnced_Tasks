@@ -54,7 +54,7 @@ TEST_CASE_METHOD(SchemeTest, "DefineLambdaSugar") {
     ExpectEq("(inc -1)", "0");
 
     ExpectNoError("(define (add x y) (+ x y 1))");
-    ExpectEq("(add -10 10)", "1");
+    ExpectEq("(add -10 10)", "1"); 
 
     ExpectNoError("(define (zero) 0)");
     ExpectEq("(zero)", "0");
