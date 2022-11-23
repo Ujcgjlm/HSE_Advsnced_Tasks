@@ -4,7 +4,7 @@
 
 Исходный код находится в файле `main.cpp`. Исполняемый файл получен командой
 ```shell
-clang++-14 main.cpp -o reallol -std=c++11 -fsanitize=address
+clang++-11 main.cpp -o reallol -std=c++11 -fsanitize=address
 ```
 
 Советуем не писать ввод каждый раз руками, а сохранить его в файл и

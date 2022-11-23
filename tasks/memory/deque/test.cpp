@@ -75,7 +75,7 @@ TEST_CASE("Reallocations", "[deque]") {
         a.PushBack(i);
         addr.push_back(&a[i]);
     }
-
+    
     for (int i = 0; i < iterations; ++i) {
         REQUIRE(*addr[i] == i);
     }

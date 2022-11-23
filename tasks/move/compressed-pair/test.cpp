@@ -143,6 +143,7 @@ TEST_CASE("Sizes") {
     CheckSize<Empty, NonEmptyDescendant>();
     CheckSize<EmptyUnion, int>();
     static_assert(std::is_empty_v<CompressedPair<Empty4, Empty5>>);
+    static_assert(std::is_base_of_v<EmptyDerived2, EmptyDerived1>);
     static_assert(
         sizeof(CompressedPair<CompressedPair<Empty4, Empty5>, CompressedPair<Empty6, char>>) ==
         sizeof(char));

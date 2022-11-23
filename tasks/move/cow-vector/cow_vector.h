@@ -1,29 +1,85 @@
 #pragma once
-
-#include <cstdint>
+#include <cstddef>
 #include <string>
-
+#include <vector>
 
 class COWVector {
 public:
-    COWVector();
-    ~COWVector();
+    COWVector() {
+        state_ = new State();
+    }
 
-    COWVector(const COWVector& other);
-    COWVector& operator=(const COWVector& other);
+    ~COWVector() {
+        if (!state_->ref_count) {
+            delete state_;
+        } else {
+            --state_->ref_count;
+        }
+    }
 
-    // Rule of 5?
+    COWVector(const COWVector& other) {
+        state_ = other.state_;
+        ++state_->ref_count;
+    }
 
-    size_t Size() const;
+    COWVector& operator=(const COWVector& other) {
+        if (&other == this) {
+            return *this;
+        }
 
-    void Resize(size_t size);
+        if (state_) {
+            if (!state_->ref_count) {
+                delete state_;
+            } else {
+                --state_->ref_count;
+            }
+        }
+        state_ = other.state_;
+        ++state_->ref_count;
+        return *this;
+    }
 
-    const std::string& Get(size_t at);
-    const std::string& Back();
+    void MaybeDeepCopy() {
+        if (state_->ref_count) {
+            --state_->ref_count;
+            state_ = new State(0, state_->vector);
+        }
+    }
 
-    void PushBack(const std::string& value);
+    size_t Size() const {
+        return state_->vector.size();
+    };
 
-    void Set(size_t at, const std::string& value);
+    void Resize(size_t size) {
+        MaybeDeepCopy();
+        state_->vector.resize(size);
+    }
+
+    const std::string& Get(size_t at) const {
+        return state_->vector[at];
+    }
+    const std::string& Back() const {
+        return state_->vector.back();
+    }
+
+    void PushBack(const std::string& value) {
+        MaybeDeepCopy();
+        state_->vector.push_back(value);
+    }
+
+    void Set(size_t at, const std::string& value) {
+        MaybeDeepCopy();
+        state_->vector[at] = value;
+    }
 
 private:
+    struct State {
+        State(size_t ref_count = 0, std::vector<std::string> vector = {})
+            : ref_count(ref_count), vector(vector) {
+        }
+        size_t ref_count;
+        std::vector<std::string> vector;
+    };
+
+    State* state_ = nullptr;
 };

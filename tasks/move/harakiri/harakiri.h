@@ -8,9 +8,26 @@
 
 class OneTimeCallback {
 public:
-    virtual ~OneTimeCallback() = default;
-    virtual std::string operator()() = 0;
+    virtual ~OneTimeCallback() {
+    }
+    virtual const std::string operator()() const&& = 0;
 };
 
 // Implement ctor, operator(), maybe something else...
-class AwesomeCallback : public OneTimeCallback {};
+class AwesomeCallback : public OneTimeCallback {
+public:
+    AwesomeCallback(const std::string& str) : str_(str) {
+    }
+
+    virtual ~AwesomeCallback() {
+    }
+
+    virtual const std::string operator()() const&& override {
+        const auto str = str_ + "awesomeness";
+        delete this;
+        return str;
+    }
+
+private:
+    const std::string str_;
+};
