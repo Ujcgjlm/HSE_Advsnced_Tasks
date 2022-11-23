@@ -48,6 +48,7 @@ TEST_CASE("Predicate throws") {
                           std::string);
         REQUIRE(data == expected);
     }
+
     {
         std::forward_list<double> vals{-5.0, -3.0, 1.0, -4.0};
         auto expected = vals;
@@ -125,7 +126,7 @@ std::ostream& operator<<(std::ostream& os, const Int& i) {
     return os << i.x;
 }
 
-TEST_CASE("Copy fails") {
+void Check() {
     Int::Reset(100);
     std::vector<Int> data{Int(1), Int(2), Int(3), Int(4), Int(5)};
     Int::Reset(3);
@@ -135,6 +136,10 @@ TEST_CASE("Copy fails") {
     for (size_t i = 0; i < data.size(); ++i) {
         REQUIRE(static_cast<size_t>(data[i].x) == (i + 1) * (i + 1));
     }
+}
+
+TEST_CASE("Copy fails") {
+     Check();
 }
 
 TEST_CASE("All fails") {
